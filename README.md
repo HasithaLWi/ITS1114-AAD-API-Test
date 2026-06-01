@@ -583,4 +583,4 @@ src/main/java/lk/ijse/AAD/
 
 ## License
 
-This project is for educational purposes as part of the IJSE curriculum.
+This project is for educational purposes as part of .
