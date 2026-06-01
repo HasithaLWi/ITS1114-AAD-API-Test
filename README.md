@@ -29,7 +29,7 @@ Update credentials in `src/main/resources/application.properties` if needed:
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/aad_first_project?createDatabaseIfNotExist=true
 spring.datasource.username=root
-spring.datasource.password=mysql
+spring.datasource.password=
 ```
 
 ### Run the Application
