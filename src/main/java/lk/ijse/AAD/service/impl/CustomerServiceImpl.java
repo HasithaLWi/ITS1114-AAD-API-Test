@@ -6,8 +6,10 @@ import lk.ijse.AAD.repository.CustomerRepository;
 import lk.ijse.AAD.repository.OrderRepository;
 import lk.ijse.AAD.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
+@Service
 public class CustomerServiceImpl implements CustomerService {
     CustomerRepository customerRepository;
     OrderRepository orderRepository;
@@ -33,6 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
             savedCustomerDTO.setName(savedCustomer.getName());
             savedCustomerDTO.setPhone(savedCustomer.getPhone());
             savedCustomerDTO.setAddress(savedCustomer.getAddress());
+
             return savedCustomerDTO;
         } catch (Exception e) {
             throw new RuntimeException(e);

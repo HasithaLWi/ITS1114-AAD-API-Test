@@ -18,5 +18,5 @@ public class CustomerDTO {
     private String address;
 
 
-    private List<OrderDTO> orders;
+//    private List<OrderDTO> orders;
 }

@@ -1,6 +1,7 @@
 package lk.ijse.AAD.service.impl;
 
 import lk.ijse.AAD.dto.OrderDTO;
+import lk.ijse.AAD.dto.OrderSaveDTO;
 import lk.ijse.AAD.entity.Customer;
 import lk.ijse.AAD.entity.Order;
 import lk.ijse.AAD.repository.CustomerRepository;
@@ -52,5 +53,51 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public OrderDTO saveOrder(OrderSaveDTO orderSaveDTO) {
+        try {
+            log.info("Saving order: {}", orderSaveDTO);
+
+            //get the Customer for the given customerId
+            Optional<Customer> optionalCustomer = customerRepository.findById(orderSaveDTO.getCustomerId());
+
+            //check if customer exists, if not log an error and throw an exception
+            if (!optionalCustomer.isPresent()) {
+
+                log.error("Customer with ID {} not found", orderSaveDTO.getCustomerId());
+                throw new RuntimeException("Customer not found");
+
+            }
+
+            Customer customer = optionalCustomer.get();
+
+            Order order = new Order();
+            order.setOrderDate(orderSaveDTO.getOrderDate());
+            order.setPrice(orderSaveDTO.getPrice());
+            //set the customer to the order
+            order.setCustomer(customer);
+
+            // save order
+            Order savedOrder = orderRepository.save(order);
+
+            // setup return dto (OrderDTO).it will return saved order with id
+            OrderDTO savedOrderDTO = new OrderDTO();
+            savedOrderDTO.setId(savedOrder.getId());
+            savedOrderDTO.setOrderDate(savedOrder.getOrderDate());
+            savedOrderDTO.setPrice(savedOrder.getPrice());
+
+            savedOrderDTO.setCustomerId(savedOrder.getCustomer().getId());
+
+
+            return savedOrderDTO;
+
+        } catch (Exception e) {
+            log.error("Error occurred while saving order: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
 
