@@ -1,12 +1,12 @@
 package lk.ijse.AAD.controller;
 
 import lk.ijse.AAD.dto.CustomerDTO;
+import lk.ijse.AAD.dto.CustomerSaveDTO;
 import lk.ijse.AAD.service.CustomerService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "v1/api/customers")
@@ -19,8 +19,21 @@ public class CustomerController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
-        return customerService.saveCustomer(customerDTO);
+    public CustomerDTO saveCustomer(@RequestBody CustomerSaveDTO customerSaveDTO) {
+        return customerService.saveCustomer(customerSaveDTO);
     }
+
+    //get all customers
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
+    public List<CustomerDTO> getAllCustomers() {
+        return customerService.getCustomers();
+    }
+
+    //get all customers with their orders
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/customers-orders/all")
+    public List<CustomerDTO> getAllCustomersOrderDetails() {
+        return customerService.getAllCustomersOrders();
+    }
+
 
 }

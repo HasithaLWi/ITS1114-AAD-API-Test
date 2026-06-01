@@ -10,6 +10,7 @@ import lk.ijse.AAD.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -94,6 +95,27 @@ public class OrderServiceImpl implements OrderService {
 
         } catch (Exception e) {
             log.error("Error occurred while saving order: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<OrderDTO> getAllOrders() {
+        try {
+            log.info("Fetching all orders");
+            List<Order> orders = orderRepository.findAll();
+
+            return orders.stream().map(order -> {
+                OrderDTO orderDTO = new OrderDTO();
+                orderDTO.setId(order.getId());
+                orderDTO.setOrderDate(order.getOrderDate());
+                orderDTO.setPrice(order.getPrice());
+                orderDTO.setCustomerId(order.getCustomer().getId());
+                return orderDTO;
+            }).toList();
+
+        } catch (Exception e) {
+            log.error("Error occurred while fetching orders: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
