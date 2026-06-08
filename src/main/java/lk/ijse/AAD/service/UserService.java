@@ -17,4 +17,6 @@ public interface UserService {
     void updateUserStatus(UsersDTO usersDTO);
 
     void deleteUser(long id);
+
+    List<UsersDTO> getUserByName(String firstName, String lastName);
 }

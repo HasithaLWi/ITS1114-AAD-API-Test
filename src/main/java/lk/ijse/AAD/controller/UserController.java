@@ -1,11 +1,16 @@
 package lk.ijse.AAD.controller;
 
+import lk.ijse.AAD.constant.CommonResponse;
 import lk.ijse.AAD.dto.UsersDTO;
 import lk.ijse.AAD.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+
+import static lk.ijse.AAD.constant.ResponseMassage.SUCCESS_MESSAGE;
+import static lk.ijse.AAD.constant.ResponseStatusCode.OPERATION_SUCCESS;
 
 @RestController
 @RequestMapping(value = "v1/api/users")
@@ -18,8 +23,12 @@ public class UserController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public UsersDTO saveUser(@RequestBody UsersDTO userDTO) {
-        return userService.saveUser(userDTO);
+    public CommonResponse saveUser(@RequestBody UsersDTO userDTO) {
+
+         userService.saveUser(userDTO);
+
+         return new CommonResponse(OPERATION_SUCCESS,SUCCESS_MESSAGE);
+
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,5 +56,9 @@ public class UserController {
     public String deleteDepartment(@PathVariable long id) {
         userService.deleteUser(id);
         return "User delete successfully";
+    }
+    @GetMapping (produces = MediaType.APPLICATION_JSON_VALUE, value = "/filter")
+    public List<UsersDTO> getUserByName(@RequestParam(value = "firstName", required = true) String firstName, @RequestParam(value = "lastName", required = true) String lastName) {
+        return userService.getUserByName(firstName, lastName);
     }
 }

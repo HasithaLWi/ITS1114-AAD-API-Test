@@ -121,6 +121,26 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     }
 
+    @Override
+    public List<DepartmentDTO> getDepartmentsByNameAndLocation(String name, String location) {
+        log.info("Filtering departments with name: {} and location: {}", name, location);
+        try {
+            List<Department> departments = departmentRepository.findByDepartmentNameAndDepartmentLocation(name, location);
+            log.info("Total departments found: {}", departments.size());
 
+            return departments.stream().map(
+                    department -> {
+                        DepartmentDTO departmentDTO = new DepartmentDTO();
+                        departmentDTO.setDepartmentName(department.getDepartmentName());
+                        departmentDTO.setDepartmentLocation(department.getDepartmentLocation());
+                        return departmentDTO;
+                    }
+            ).toList();
+
+        } catch (Exception e) {
+            log.error("Error occurred while filtering departments: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 
 }

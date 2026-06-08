@@ -11,4 +11,5 @@ public interface DepartmentService {
     DepartmentDTO updateDepartment(DepartmentDTO departmentDTO);
 
     void deleteDepartment(long id);
+    List<DepartmentDTO> getDepartmentsByNameAndLocation(String name, String location);
 }

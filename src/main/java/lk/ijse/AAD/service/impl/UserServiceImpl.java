@@ -171,4 +171,26 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<UsersDTO> getUserByName(String firstName, String lastName) {
+        log.info("Fetching users by name: {} {}", firstName, lastName);
+        try {
+            List<Users> usersList = userRepository.findByFirstNameAndLastName(firstName, lastName);
+            log.info("Total users fetched with name {} {}: {}", firstName, lastName, usersList.size());
+
+            return usersList.stream().map(user -> {
+                UsersDTO usersDTO = new UsersDTO();
+                usersDTO.setId(user.getId());
+                usersDTO.setFirstName(user.getFirstName());
+                usersDTO.setLastName(user.getLastName());
+                usersDTO.setDob(user.getDob());
+                usersDTO.setStatus(user.getStatus());
+                return usersDTO;
+            }).toList();
+        } catch (Exception e) {
+            log.error("Error occurred while fetching users by name: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }
